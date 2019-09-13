@@ -1,5 +1,22 @@
 *
 {
+	margin: 5px ;
+	padding: 5px;
 	text-align: center;
 	font-family: sans-serif;
+}
+input
+{
+	display: block;
+	margin: 10px auto;
+	border-radius: 5px;
+}
+ul
+{
+	list-style-type: none;
+}
+a
+{
+	text-decoration-style: none;
+	text-decoration-line: none;
 }
