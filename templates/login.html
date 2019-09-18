@@ -5,7 +5,7 @@
 	
 {% block body %}
 	
-		<form action=" {{url_for('home')}} ">
+		<form method="post" action=" {{ url_for('login') }} " >
 			<input type="text" name="name" placeholder=" User Name">
 			<input type="password" name="password" placeholder=" Password">
 			<input type="submit" value=" Submit ">

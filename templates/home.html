@@ -16,6 +16,13 @@
 			</ul>
 		</div>
 	
+
+		{% for x in student %}
+			<li>{{ x.name }} </li>
+			<li>{{ x.password }} </li>
+			<li>{{ x.age }} </li>
+		{% endfor %}
+
 		<div class="Services"> </div>
 
 {% endblock %}

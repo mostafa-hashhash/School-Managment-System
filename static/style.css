@@ -1,6 +1,6 @@
 *
 {
-	margin: 5px ;
+	margin: 10px ;
 	padding: 5px;
 	text-align: center;
 	font-family: sans-serif;
@@ -8,15 +8,20 @@
 input
 {
 	display: block;
-	margin: 10px auto;
+	margin: 15px auto;
 	border-radius: 5px;
+	padding: 8px;
 }
 ul
 {
 	list-style-type: none;
+	display: block;
+}
+ul li
+{
+    display: inline;
 }
 a
 {
-	text-decoration-style: none;
 	text-decoration-line: none;
 }
