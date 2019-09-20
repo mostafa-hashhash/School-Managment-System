@@ -6,7 +6,7 @@
 {% block body %}
 	
 		<form method="post" action=" {{ url_for('register') }} " >
-			<input type="text"     name="name"   placeholder=" User Name" autofocus>
+			<input type="text"   autocomplete="off"  name="name"   placeholder=" User Name" autofocus>
 			<input type="password" name="password" placeholder=" Password">
 			<input type="number"   name="age" placeholder=" Age">
 			<input type="number"   name="phone" placeholder=" Phone">

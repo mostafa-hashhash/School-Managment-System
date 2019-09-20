@@ -10,6 +10,7 @@ db.init_app(app)
 with app.app_context():
 	db.create_all()
 
+app.Debug = True
 
 @app.route("/")
 def home():
@@ -35,9 +36,9 @@ def logout():
 @app.route("/login",methods=["GET", "POST"])
 def login():
 	if request.method == "POST":
-		user_name = request.form.get('name')
+		user_name = request.form['name']
 		password = request.form.get('password') 
-		login = User.query.filter_by(name=user_name, password=password).first()
+		login = teacher.query.filter_by(name=user_name, password=password).first()
 		if login is not None:
 			return render_template('home.html',student=login)
 
@@ -47,12 +48,17 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
 	if request.method == "POST":
-		user_name = request.form.get('name')
+		user_name = request.form['name']
 		password = request.form.get('password') 
 		email = request.form.get('email')
 		phone = request.form.get('phone')
 		age = request.form.get('age')
-		User.add_user(user_name,password,email,age,phone)
+
+		x = teacher(name=user_name,age=age,email=email,phone=phone,password=password)
+		db.session.add(x)
+		db.session.commit()
+
+		##teacher.add_teacher(user_name,password,email,age,phone)
 
 		return render_template("login.html")
 	return render_template("register.html")
