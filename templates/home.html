@@ -10,14 +10,16 @@
 				<li><a href="{{ url_for('follow') }}"> Follow Up </a></li>
 				<li><a href="{{ url_for('finance') }}"> Finance </a></li>
 				<li><a href="{{ url_for('delay') }}"> Delay / Abscense </a></li>
-				<li><a href="{{ url_for('logout') }}"> Exit </a></li>
-				<li><a href="{{ url_for('login') }}"> Login </a></li>
-				<li><a href="{{ url_for('register') }}"> Register </a></li>
+				<li><a href="{{ url_for('logout') }}"> Logout </a></li>
 			</ul>
 		</div>
 	
-
-			<li>{{ student["name"] }} </li>
+   
+			<li>{{ student["name"]}} </li>
+			<li>{{ student["age"]}} </li>
+			<li>{{ student["email"]}} </li>
+			<li>{{ student["password"]}} </li>
+			<li>{{ student["phone"]}} </li>
 
 		<div class="Services"> </div>
 
