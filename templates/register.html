@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 
-{% block title %} Register {% endblock %}
-{% block head %}  Register {% endblock %}
+{% block title %} Add {{ x }} {% endblock %}
+{% block head %}  Add {{ x }} {% endblock %}
 	
 {% block body %}
 	
 		<form method="post" action=" {{ url_for('register') }} " >
-			<input type="text"   autocomplete="off"  name="name"   placeholder=" User Name" autofocus>
+			<input type="text"     name="name"     placeholder=" {{x}} Name"  autocomplete="off" autofocus>
 			<input type="password" name="password" placeholder=" Password">
-			<input type="number"   name="age" placeholder=" Age">
-			<input type="number"   name="phone" placeholder=" Phone">
-			<input type="email"    name="email" placeholder=" Email">
+			<input type="number"   name="age" 	   placeholder=" Age">
+			<input type="number"   name="phone"	   placeholder=" Phone">
+			<input type="email"    name="email"    placeholder=" Email">
 			<input type="submit"  value=" Register ">
 		</form>
 		

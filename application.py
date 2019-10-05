@@ -18,47 +18,31 @@ db.init_app(app)
 with app.app_context():
 	db.create_all()
 
-
-
-
-
-
 @app.route("/")
 def home():
-	return render_template("login.html")
-	
-@app.route("/finance")
-def finance():
-	"""
-		info about the payment status
-		paid , not-yet
-	"""
-	return render_template("finance.html")
-	
-@app.route("/follow")
+	return redirect(url_for('login'))
+
+
+
+
+
+@app.route("/student")
 def follow():
-	"""
-		info about every lecture  
-		will join the tables to get the student status at this session 
-	"""
-	lecture.query.filter_by(user_id = session["uid"]).all
-	user.query.filter_by(id = session["uid"]).first().lecture
-	db.session.query
+	
+	tid = var.teacher_id
+	lec = lecture.query.filter_by(teacher_id = tid).all
+
 	x = lecture.query.all()
 	return render_template("follow.html",lectures=x)
-	
+
+@app.route("/teacher")
+def teacher():
+	pass
 
 
-
-
-@app.route("/delay")
-def delay():
-	"""
-		Join The session,student Tables to get all the session for that specific user
-		user data is provided in the session 
-	"""
-	return render_template("delay.html")
-
+@app.route("/admin")
+def admin():
+	pass
 
 
 
@@ -68,9 +52,7 @@ def logout():
 	key_list = list(session.keys())
 	for key in key_list:
 		session.pop(key)
-	return render_template("lgoin.html")
-
-
+	return redirect(url_for('login'))
 
 
 
@@ -81,29 +63,51 @@ def login():
 	if request.method == "POST":
 		user_name = request.form.get('name')
 		password = request.form.get('password') 
+
+		loged = user.query.filter_by(name=user_name, password=password).first()
+		if loged is not None:
+			session["user_name"] = user_name
+			session["password" ] = password
+			session["uid"] = loged.id
+			session["type"] = "s"
+			return redirect(url_for('student',var=loged ) )
+		
 		loged = teacher.query.filter_by(name=user_name, password=password).first()
 		if loged is not None:
 			session["user_name"] = user_name
 			session["password" ] = password
 			session["uid"] = loged.id
-			return render_template('home.html',student=loged)
-	else:
+			session["type"] = "t"
+			return redirect(url_for('teacher',var=loged ) )
+		
+		loged = admin.query.filter_by(name=user_name, password=password).first()
+		if loged is not None:
+			session["user_name"] = user_name
+			session["password" ] = password
+			session["uid"] = loged.id
+			session["type"] = "a"
+			return redirect(url_for('admin',var=loged ) )
+	else: ## request.method == "GET"
 		if "user_name" not in session and "password" not in session :
 			return render_template("login.html")
 		else:
 			user_name = session["user_name"]
 			password = session["password"]
-			login = teacher.query.filter_by(name=user_name, password=password).first()
-			return render_template('home.html',student=login)
+			if session["type"] == "s":
+				login = user.query.filter_by(name=user_name, password=password).first()
+				return redirect(url_for('student',var=loged ) )
+			if session["type"] == "t":
+				login = teacher.query.filter_by(name=user_name, password=password).first()
+				return redirect(url_for('teacher',var=loged ) )
+			if session["type"] == "a":
+				login = admin.query.filter_by(name=user_name, password=password).first()
+				return redirect(url_for('admin',var=loged ) )
 
 
 
 
-
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
+@app.route("/register/<string:x>", methods=["GET", "POST"])
+def register(x):
 	if request.method == "POST":
 		user_name = request.form.get('name')
 		password = request.form.get('password') 
@@ -111,11 +115,21 @@ def register():
 		phone = request.form.get('phone')
 		age = request.form.get('age')
 
-		x = teacher(name=user_name,age=age,email=email,phone=phone,password=password)
-		db.session.add(x)
-		db.session.commit()
-
-		##teacher.add_teacher(user_name,password,email,age,phone)
+		if obj == "Student":
+			tid = request.form.get('tid')
+			add_user(user_name,password,email,age,phone,tid)
+			session["user_name"] = user_name
+			session["password" ] = password
+		elif obj == "Teacher":
+			add_teacher(user_name,password,email,age,phone)
+			session["user_name"] = user_name
+			session["password" ] = password
+		elif obj == "Admin":
+			add_admin(user_name,password,email,age,phone)
+			session["user_name"] = user_name
+			session["password" ] = password
 
 		return render_template("login.html")
-	return render_template("register.html")
+
+	else:
+		return render_template("register.html", x = obj)
